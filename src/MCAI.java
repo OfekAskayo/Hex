@@ -123,7 +123,7 @@ public class MCAI extends AI {
 			opp=2;
 		}
 
-		minLen=49;
+		minLen=7*7;
 		double maxno=999;
 		double minnp=999;
 
@@ -147,8 +147,9 @@ public class MCAI extends AI {
 					oLoc=new Location(i, 0);
 				}
 
-				double no=(double)calcN(board, opp, oLoc, new ArrayList<Location>(), initCountO);
-				minLen=49;
+				// System.out.println("#ofek 4 Starting calcVal calcN...");
+				double no = calcN(board, opp, oLoc, new ArrayList<Location>(), initCountO);
+				minLen=7*7;
 
 				if (no<maxno) {
 					maxno=no;
@@ -264,6 +265,7 @@ public class MCAI extends AI {
 		lastPlayed=last;
 		ArrayList<TreeNode> tree=buildTree(null, board, 1);
 
+		System.out.println("#ofek 1 Starting best location calculation...");
 		double best=-9999;
 		Location bestLoc=tree.get(0).playLocation;
 		for (int i=0; i<tree.size(); i++) {

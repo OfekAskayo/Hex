@@ -29,31 +29,41 @@ public class Panel extends JPanel {
 	 * Default constructor for the view.
 	 */
 	public Panel() {
-		board=new int[7][7];
+		board = new int[7][7];
 
-		squares=new Polygon[7][7];
+		squares = new Polygon[7][7];
 
-		String[] opts={"Black", "White"};
-		colour=JOptionPane.showOptionDialog(null, "Which colour would you like to play as?", "Choose Colour", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
+		String[] opts = {"Black", "White"};
+		colour = JOptionPane.showOptionDialog(
+				null,
+				"Which colour would you like to play as?",
+				"Choose Colour",
+				JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+				null, opts, opts[0]);
 
-		int opp=1;
-		if (colour!=JOptionPane.CLOSED_OPTION) {
-			opp=colour+1;
+		int opp = 1;
+		if (colour != JOptionPane.CLOSED_OPTION) {
+			opp = colour+1;
 		} else {
-			colour=2;
+			colour = 2;
 		}
 
-		ai=new MCAI(opp);
+		ai = new MCAI(opp);
 
-		Object[] options={25, 50, 75, 100, 150};
-		Integer level=(Integer)JOptionPane.showInputDialog(null, "Choose a difficulty level:", "Choose Difficulty", JOptionPane.PLAIN_MESSAGE, null, options, 75);
+		Object[] options = {25, 50, 75, 100, 150};
+		Integer level = (Integer)JOptionPane.showInputDialog(
+				null,
+				"Choose a difficulty level:",
+				"Choose Difficulty",
+				JOptionPane.PLAIN_MESSAGE,
+				null, options, 75);
 
-		if (level!=null) {
-			((MCAI)ai).diffLevel=level.intValue();
+		if (level != null) {
+			((MCAI)ai).diffLevel = level.intValue();
 		}
 
-		image=new BufferedImage(400, 500, BufferedImage.TYPE_INT_RGB);
-		graph=image.getGraphics();
+		image = new BufferedImage(400, 500, BufferedImage.TYPE_INT_RGB);
+		graph = image.getGraphics();
 		graph.setColor(new Color(210, 180, 140));
 		graph.fillRect(0, 0, 400, 500);
 
@@ -61,6 +71,7 @@ public class Panel extends JPanel {
 
 		if (turn==ai.getPlayerCode()) {
 			Location loc=ai.getPlayLocation(board, new Location(-1, -1));
+			System.out.println("#ofek 3 Starting panel playAt...");
 			playAt(loc.x, loc.y);
 		}
 
@@ -82,6 +93,8 @@ public class Panel extends JPanel {
 				graph.fillPolygon(squares[y][x]);
 			}
 		}
+
+		// TODO: Add black and white lines in the correct X,Y in the graph
 
 		paintImmediately(getBounds());
 	}
@@ -143,11 +156,14 @@ public class Panel extends JPanel {
 		board[y][x]=turn;
 		drawBoard();
 
-		if (((MCAI)ai).calcVal(board)>Math.pow(board.length, 2)) {
+		System.out.println("#ofek 2 Starting winner calculation...");
+		double aiCalcVal = ((MCAI)ai).calcVal(board);
+		double colourCalcVal = new MCAI(colour).calcVal(board);
+		if (aiCalcVal > Math.pow(board.length, 2)) {
 			JOptionPane.showMessageDialog(null, "The computer won. You didn't.", "Victory!", JOptionPane.PLAIN_MESSAGE);
 			turn=-1;
 			return;
-		} else if (new MCAI(colour).calcVal(board)>Math.pow(board.length, 2)) {
+		} else if (colourCalcVal > Math.pow(board.length, 2)) {
 			JOptionPane.showMessageDialog(null, "You won.", "Victory!", JOptionPane.PLAIN_MESSAGE);
 			turn=-1;
 			return;
@@ -163,6 +179,7 @@ public class Panel extends JPanel {
 
 		if (turn==ai.getPlayerCode()) {
 			Location loc=ai.getPlayLocation(board, new Location(x, y));
+			System.out.println("#ofek 3 Starting playAt playAt...");
 			playAt(loc.x, loc.y);
 		}
 	}
@@ -199,6 +216,7 @@ public class Panel extends JPanel {
 			for (int y=0; y<squares.length; y++) {
 				for (int x=0; x<squares[y].length; x++) {
 					if (squares[y][x].contains(eX, eY)) {
+						System.out.println("#ofek 3 Starting mouse pressed playAt...");
 						playAt(x, y);
 					}
 				}
