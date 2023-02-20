@@ -19,10 +19,10 @@ public class Panel extends JPanel {
 	private int[][] board;
 	private Polygon[][] squares;
 
-	private final Color[] colors={Color.GRAY, Color.WHITE, Color.BLACK};
+	private final Color[] colors = {Color.GRAY, Color.WHITE, Color.BLACK};
 
-	private int turn=1;
-	private int colour=1;
+	private int turn = 1;
+	private int colour = 1;
 	private AI ai;
 
 	/**
@@ -30,7 +30,6 @@ public class Panel extends JPanel {
 	 */
 	public Panel() {
 		board = new int[7][7];
-
 		squares = new Polygon[7][7];
 
 		String[] opts = {"Black", "White"};
@@ -44,7 +43,8 @@ public class Panel extends JPanel {
 		int opp = 1;
 		if (colour != JOptionPane.CLOSED_OPTION) {
 			opp = colour+1;
-		} else {
+		}
+		else {
 			colour = 2;
 		}
 
@@ -69,8 +69,8 @@ public class Panel extends JPanel {
 
 		drawBoard();
 
-		if (turn==ai.getPlayerCode()) {
-			Location loc=ai.getPlayLocation(board, new Location(-1, -1));
+		if (turn == ai.getPlayerCode()) {
+			Location loc = ai.getPlayLocation(board, new Location(-1, -1));
 			System.out.println("#ofek 3 Starting panel playAt...");
 			playAt(loc.x, loc.y);
 		}
@@ -86,10 +86,10 @@ public class Panel extends JPanel {
 		graph.setColor(new Color(210, 180, 140));
 		graph.fillRect(0, 0, 400, 500);
 
-		for (int y=0; y<7; y++) {
-			for (int x=0; x<7; x++) {
+		for (int y = 0; y < 7; y++) {
+			for (int x = 0; x < 7; x++) {
 				graph.setColor(getColor(x, y));
-				squares[y][x]=drawHex(25.0, x*42+70, y*47+178-(23*x));
+				squares[y][x]=drawHex(25.0, x * 42 + 70, y * 47 + 178 - (23 * x));
 				graph.fillPolygon(squares[y][x]);
 			}
 		}
@@ -118,14 +118,14 @@ public class Panel extends JPanel {
 	 * @return A hexagon-shaped Polygon
 	 */
 	private Polygon drawHex(double rad, double centerX, double centerY) {
-		Polygon p=new Polygon();
+		Polygon p = new Polygon();
 
-		double arc=(Math.PI*2)/6;
+		double arc = (Math.PI * 2) / 6;
 
-		for (int i=0; i<=6; i++) {
-			p.addPoint((int)Math.round(centerX+rad*Math.cos(arc*i)), (int)Math.round(centerY+rad*Math.sin(arc*i)));
+		for (int i = 0; i <= 6; i++) {
+			p.addPoint((int)Math.round(centerX + rad * Math.cos(arc * i)),
+					(int)Math.round(centerY + rad * Math.sin(arc * i)));
 		}
-
 		return p;
 	}
 
@@ -161,18 +161,22 @@ public class Panel extends JPanel {
 		double colourCalcVal = new MCAI(colour).calcVal(board);
 		if (aiCalcVal > Math.pow(board.length, 2)) {
 			JOptionPane.showMessageDialog(null, "The computer won. You didn't.", "Victory!", JOptionPane.PLAIN_MESSAGE);
-			turn=-1;
+			turn = -1;
+			System.exit(0);
 			return;
-		} else if (colourCalcVal > Math.pow(board.length, 2)) {
+		}
+		else if (colourCalcVal > Math.pow(board.length, 2)) {
 			JOptionPane.showMessageDialog(null, "You won.", "Victory!", JOptionPane.PLAIN_MESSAGE);
-			turn=-1;
+			turn = -1;
+			System.exit(0);
 			return;
 		}
 
-		if (turn==2) {
+		if (turn == 2) {
 			turn--;
 			drawBoard();
-		} else {
+		}
+		else {
 			turn++;
 			drawBoard();
 		}
@@ -193,7 +197,7 @@ public class Panel extends JPanel {
 	 * @return true if the location is empty
 	 */
 	private boolean isLegalPlay(int x, int y) {
-		return board[y][x]==0;
+		return board[y][x] == 0;
 	}
 
 	/**
@@ -206,15 +210,15 @@ public class Panel extends JPanel {
 		 * @param e A MouseEvent to process.
 		 */
 		public void mousePressed(MouseEvent e) {
-			int eX=e.getX();
-			int eY=e.getY();
+			int eX = e.getX();
+			int eY = e.getY();
 
 			if (turn==ai.getPlayerCode() && turn>0) {
 				return;
 			}
 
-			for (int y=0; y<squares.length; y++) {
-				for (int x=0; x<squares[y].length; x++) {
+			for (int y = 0; y < squares.length; y++) {
+				for (int x = 0; x < squares[y].length; x++) {
 					if (squares[y][x].contains(eX, eY)) {
 						System.out.println("#ofek 3 Starting mouse pressed playAt...");
 						playAt(x, y);
