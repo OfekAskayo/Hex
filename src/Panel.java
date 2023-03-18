@@ -86,6 +86,8 @@ public class Panel extends JPanel {
 		graph.setColor(new Color(210, 180, 140));
 		graph.fillRect(0, 0, 400, 500);
 
+		drawBoardPlayerLines();
+
 		for (int y = 0; y < 7; y++) {
 			for (int x = 0; x < 7; x++) {
 				graph.setColor(getColor(x, y));
@@ -94,11 +96,27 @@ public class Panel extends JPanel {
 			}
 		}
 
-		// TODO: Add black and white lines in the correct X,Y in the graph
-
 		paintImmediately(getBounds());
 	}
-	
+
+	private void drawBoardPlayerLines() {
+		graph.setColor(colors[1]);
+		Polygon linePolygon1 = new Polygon();
+		linePolygon1.addPoint(55, 140);
+		linePolygon1.addPoint(55, 150);
+		linePolygon1.addPoint(300, 15);
+		linePolygon1.addPoint(300, 5);
+		graph.fillPolygon(linePolygon1);
+
+		graph.setColor(colors[2]);
+		Polygon linePolygon2 = new Polygon();
+		linePolygon2.addPoint(20, 170);
+		linePolygon2.addPoint(30, 170);
+		linePolygon2.addPoint(20, 470);
+		linePolygon2.addPoint(30, 470);
+		graph.fillPolygon(linePolygon2);
+	}
+
 	/**
 	 * Paints the view.
 	 * @param  g  the Graphics instance to paint to.
