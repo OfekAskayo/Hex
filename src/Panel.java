@@ -112,8 +112,8 @@ public class Panel extends JPanel {
 		Polygon linePolygon2 = new Polygon();
 		linePolygon2.addPoint(20, 170);
 		linePolygon2.addPoint(30, 170);
-		linePolygon2.addPoint(20, 470);
 		linePolygon2.addPoint(30, 470);
+		linePolygon2.addPoint(20, 470);
 		graph.fillPolygon(linePolygon2);
 	}
 
